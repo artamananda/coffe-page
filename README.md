@@ -1,70 +1,174 @@
-# Getting Started with Create React App
+# Case Solution
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Case 1 (Soal No.1-4)
 
-## Available Scripts
+Andi menjual beraneka ragam buah. Diketahui catatan buah yang dimiliki Andi saat ini adalah sebagai berikut.
 
-In the project directory, you can run:
+```typescript
+type IFruit = {
+  fruitId: number;
+  fruitName: string;
+  fruitType: 'IMPORT' | 'LOCAL';
+  stock: number;
+};
 
-### `npm start`
+const fruits: IFruit[] = [
+  {
+    fruitId: 1,
+    fruitName: 'Apel',
+    fruitType: 'IMPORT',
+    stock: 10,
+  },
+  {
+    fruitId: 2,
+    fruitName: 'Kurma',
+    fruitType: 'IMPORT',
+    stock: 20,
+  },
+  {
+    fruitId: 3,
+    fruitName: 'apel',
+    fruitType: 'IMPORT',
+    stock: 50,
+  },
+  {
+    fruitId: 4,
+    fruitName: 'Manggis',
+    fruitType: 'LOCAL',
+    stock: 100,
+  },
+  {
+    fruitId: 5,
+    fruitName: 'Jeruk Bali',
+    fruitType: 'LOCAL',
+    stock: 10,
+  },
+  {
+    fruitId: 5,
+    fruitName: 'KURMA',
+    fruitType: 'IMPORT',
+    stock: 20,
+  },
+  {
+    fruitId: 5,
+    fruitName: 'Salak',
+    fruitType: 'LOCAL',
+    stock: 150,
+  },
+];
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Buah apa saja yang dimiliki Andi? (fruitName)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+Apel, Kurma, apel, Manggis, Jeruk Bali, KURMA, Salak
+```
 
-### `npm test`
+2. Andi memisahkan buahnya menjadi beberapa wadah berdasarkan tipe buah (fruitType). Berapa jumlah wadah yang dibutuhkan? Dan ada buah apa saja di
+   masing-masing wadah?
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+2 Wadah. LOCAL dan IMPORT.
+IMPORT : Apel, Kurma, apel, KURMA
+LOCAL  : Manggis, Jeruk Bali, Salak
+```
 
-### `npm run build`
+3. Berapa total stock buah yang ada di masing-masing wadah?
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+IMPORT : Apel, Kurma, apel, KURMA
+       = 10 + 20 + 50 + 20 = 100
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+LOCAL  : Manggis, Jeruk Bali, Salak
+       = 100 + 10 + 150 = 260
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. Apakah ada komentar terkait kasus di atas?
 
-### `npm run eject`
+```
+1. Terdapat inkonsistensi pada penamaan buah, yaitu seperti Apel dan apel. Lalu ada juga KURMA dan Kurma. Yang mana sebenarnya dalam pandangan kita sebagai manusia itu sama, namun komputer bisa lain memahaminya karena adanya perbedaan penggunaan huruf besar dan kecil pada penamaan.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+2. ID yang digunakan pada Apel dan apel berbeda sehingga bisa disimpulkan bahwa 2 buah ini adalah 2 yang berbeda, begitu juga dengan KURMA dan Kurma.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Terdapat 3 buah dengan ID yang sama. Tentu ini bisa mempengaruhi saat kita ingin melakukan getDataByID. Karena pada umumnya ID itu harus bersifat unique.
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Case 2 (Soal No.5)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Diketahui data berikut ini.
 
-## Learn More
+```typescript
+type IComment = {
+  commentId: number;
+  commentContent: string;
+  replies?: IComment[];
+};
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+const comments: IComment[] = [
+  {
+    commentId: 1,
+    commentContent: 'Hai',
+    replies: [
+      {
+        commentId: 11,
+        commentContent: 'Hai juga',
+        replies: [
+          {
+            commentId: 111,
+            commentContent: 'Haai juga hai jugaa',
+          },
+          {
+            commentId: 112,
+            commentContent: 'Haai juga hai jugaa',
+          },
+        ],
+      },
+      {
+        commentId: 12,
+        commentContent: 'Hai juga',
+        replies: [
+          {
+            commentId: 121,
+            commentContent: 'Haai juga hai jugaa',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    commentId: 2,
+    commentContent: 'Halooo',
+  },
+];
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+5. Buatlah fungsi untuk menghitung total komentar yang ada, termasuk semua
+   balasan komentar. Berdasarkan data di atas, total komentar adalah 7 komentar.
 
-### Code Splitting
+```typescript
+function countTotalComments(comments: IComment[]): number {
+  let total = comments.length;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  for (const comment of comments) {
+    if (comment.replies) {
+      total += countTotalComments(comment.replies);
+    }
+  }
 
-### Analyzing the Bundle Size
+  return total;
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Case 3
 
-### Making a Progressive Web App
+6. Buatlah minimal 1 halaman untuk memperkenalkan sebuah UMKM. Desain bebas. Buatlah semenarik mungkin. Boleh dibuat sebagai website ataupun mobile app (bebas pilih). Jika diperlukan, diperbolehkan untuk membuat backend sederhana.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+npm start
+```
 
-### Advanced Configuration
+Running on :
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+http://localhost:3000
+```
