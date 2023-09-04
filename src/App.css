@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+/* ProductDetail.css */
+.product-detail-enter {
+  transform: rotate(0deg);
+  opacity: 0;
+}
+
+.product-detail-enter-active {
+  transform: rotate(360deg);
+  opacity: 1;
+  transition: transform 500ms ease-in-out, opacity 300ms ease-in-out;
+}
+
+.product-detail-exit {
+  transform: rotate(360deg);
+  opacity: 1;
+}
+
+.product-detail-exit-active {
+  transform: rotate(0deg);
+  opacity: 0;
+  transition: transform 500ms ease-in-out, opacity 300ms ease-in-out;
+}
