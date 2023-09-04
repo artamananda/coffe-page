@@ -8,9 +8,11 @@ const BuyProduct = () => {
         <p className='text-lg'>
           Jangan lewatkan kesempatan untuk memiliki produk berkualitas ini.
         </p>
-        <form action="#buy"><button className='bg-white text-black-500 px-6 py-2 mt-8 hover:bg-[#000000] hover:text-white transition duration-300'>
-          Beli Sekarang
-        </button></form>
+        <form action='#buy'>
+          <button className='bg-white text-black-500 px-6 py-2 mt-8 hover:bg-[#000000] hover:text-white transition duration-300'>
+            Beli Sekarang
+          </button>
+        </form>
       </div>
     </section>
   );
