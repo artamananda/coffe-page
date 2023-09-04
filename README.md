@@ -60,27 +60,69 @@ const fruits: IFruit[] = [
 
 1. Buah apa saja yang dimiliki Andi? (fruitName)
 
-```
-Apel, Kurma, apel, Manggis, Jeruk Bali, KURMA, Salak
+```typescript
+function fruitNames(IFruits: IFruit[]) {
+  let dataName: string[] = [];
+  for (const fruit of IFruits) {
+    let a = true;
+    const fruitNameLower = fruit.fruitName.toLowerCase();
+    for (let i = 0; i < dataName.length; i++) {
+      if (fruitNameLower == dataName[i]) {
+        a = false;
+        break;
+      }
+    }
+    if (a == true) {
+      dataName.push(fruitNameLower);
+    }
+  }
+  return dataName;
+}
+
+console.log(fruitNames(fruits));
 ```
 
 2. Andi memisahkan buahnya menjadi beberapa wadah berdasarkan tipe buah (fruitType). Berapa jumlah wadah yang dibutuhkan? Dan ada buah apa saja di
    masing-masing wadah?
 
-```
-2 Wadah. LOCAL dan IMPORT.
-IMPORT : Apel, Kurma, apel, KURMA
-LOCAL  : Manggis, Jeruk Bali, Salak
+```typescript
+function wadah(IFruits: IFruit[]) {
+  let result = new Map<string, string[]>();
+  for (const fruit of IFruits) {
+    const temp = result.get(fruit.fruitType) || [];
+    temp.push(fruit.fruitName);
+    result.set(fruit.fruitType, temp);
+  }
+  return result;
+}
+
+const wadahh = wadah(fruits);
+console.log('wadah yang diperlukan : ' + wadahh.size);
+for (const [key, value] of wadahh) {
+  console.log(`${key} => [${value}]`);
+}
 ```
 
 3. Berapa total stock buah yang ada di masing-masing wadah?
 
-```
-IMPORT : Apel, Kurma, apel, KURMA
-       = 10 + 20 + 50 + 20 = 100
+```typescript
+function wadahStock(IFruits: IFruit[]) {
+  let result = new Map<string, number[]>();
+  for (const fruit of IFruits) {
+    const temp = result.get(fruit.fruitType) || [];
+    temp.push(fruit.stock);
+    result.set(fruit.fruitType, temp);
+  }
+  return result;
+}
 
-LOCAL  : Manggis, Jeruk Bali, Salak
-       = 100 + 10 + 150 = 260
+for (const [key, value] of wadahStock(fruits)) {
+  let nums = 0;
+  for (const v of value) {
+    nums += v;
+  }
+  console.log(`${key} => [${nums}]`);
+}
 ```
 
 4. Apakah ada komentar terkait kasus di atas?
